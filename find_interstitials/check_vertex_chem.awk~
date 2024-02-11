@@ -1,0 +1,21 @@
+BEGIN{
+
+    read_from_lines=1;
+}
+
+($2=="N_coord"){N_coord=$3;}
+($1=="inter"){
+    
+}
+($1=="from"){
+    Z[vnum++]=$7;
+    if (vnum == N_coord) {
+	for(i=0; i<N_coord; i++){
+	    
+	}
+    }
+}
+
+END{
+
+}

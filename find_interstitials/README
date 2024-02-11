@@ -1,0 +1,81 @@
+It will be easiest for you to run this on a computer with Linux. The code consists of:
+(a) a bash shell master script called "find_interstit.sh" that runs all the other codes and is the interface to the program
+(b) one Fortran code that does the calculations, this is the file "find_interstitials.f90". You will have to compile this code, but that should be quite easy on linux.
+(c) several 'awk' files that do various data conversions
+(d) the master script will call 'gnuplot' to show you the structure and the interstitial positions. It is not necessary to use this part of the program if you have other plotting software that you prefer.
+
+Files:
+
+find_interstit.sh
+find_interstitials.f90
+ehm_fortlib.f90
+poscar_2v4.awk
+poscar2powder.awk
+powder2poscar.awk
+CHG_to_xyz_rho.awk
+awklib.awk
+
+If you have a user account on a linux system, install by doing the following:
+
+1. cd to your home directory
+2. mkdir bin awkfiles src
+3. place all the .awk files in ~/awkfiles
+4. in some of the awk files you will need to edit the first line to point to the awklib.awk file. It should be clear when you open poscar2powder.awk, for example.
+5. copy the fortran code to ~/src and then compile the code and put the binary in ~/bin/find_interstitials
+6. edit your .bashrc file and add your new ~/bin directory to the PATH variable.
+7. put the file find_interstit.sh in your ~/bin directory and "chmod +x find_interstit.sh" to make it executable.
+8. Install gnuplot if you want the visualization functionality.
+
+That should do it on installation. When you run it from the command line without arguments you should get a help screen:
+
+bash$ find_interstit.sh
+
+#######################
+#      find_inter.sh
+#######################
+
+Version 1.4.0
+Feb 2015
+
+use: find_inter.sh -f infile  [cC:d:D:f:GhHi:I:n:o:p:s:SZ:]
+
+    -f -*- infile (default POSCAR)
+    -d --- debug (debug level, default 0)
+    -h --- help
+
+    -D -*- Dstep (default 0.5)
+           grid step size
+    -i -*- iv_sigma_min (default 0.0)
+           min sigma for interstit-vertex distance variation
+    -I -*- iv_sigma_max (default 1.0)
+           max sigma for interstit-vertex distance variation
+    -n -*- N_coord 4..10 (default 4)
+           4=tetr 5=pent 6=oct
+    -S --- show vertex coordinates of interstitial space
+
+    -s -*- set supercell min max for search (default 1)
+    -H --- halfcell (restrict to 0.5 0.5 0.5)
+    -Z -*- ignore atomic number Z in input POSCAR
+           (will remove atoms Z in powder input file)
+    -C -*- give CHG file, and calculate the e-density at
+           the interstitial positions
+
+    -c --- calculate the distribution of sites vs iv_sig
+           output is ivsigdistr.$output.dat
+           !!! This turns off printing to stdout of the
+           interstitials. (assuming large number here)!!!
+    -G --- generate poscar file with interstitials
+           name will be POSCAR_PLUS_INTS
+           This only cats the fract coords to the end
+           of the POSCAR file and does not alter the
+           chemistry header lines. This must be done
+           by hand.
+    -o -*- output filename (default inters.out)
+    -p -*- make plot with gnuplot (data in inters.plt.dat)
+           arg is column number, 4=iv_ave 5=iv_sig 6=sigma
+
+
+Eric Majzoub
+University of Missouri - St. Louis
+Jan 2015
+
